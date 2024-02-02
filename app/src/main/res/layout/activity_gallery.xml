@@ -29,7 +29,7 @@
         android:layout_height="64dp"
         android:layoutDirection="rtl"
         android:translationY="-70dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:text="+"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/gallery_layout"  />
