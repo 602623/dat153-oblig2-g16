@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuizActivity">
+    tools:context=".activity.QuizActivity">
 
     <ImageView
         android:id="@+id/image_view"
@@ -13,15 +13,15 @@
         android:layout_marginTop="263dp"
         android:layout_marginBottom="68dp"
         android:src="@drawable/placeholder"
-        app:layout_constraintBottom_toTopOf="@+id/increment"
+        app:layout_constraintBottom_toTopOf="@+id/answer1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_view"
-        android:layout_width="55dp"
-        android:layout_height="42dp"
+        android:layout_width="110dp"
+        android:layout_height="93dp"
         android:layout_marginTop="49dp"
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="52dp"
@@ -32,25 +32,34 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/decrement"
+        android:id="@+id/answer1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="236dp"
-        android:text="Decrement"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/increment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_view" />
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="13dp"
+        android:text="Answer1"
+        app:layout_constraintBottom_toTopOf="@+id/answer2"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/increment"
+        android:id="@+id/answer2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="23dp"
-        android:text="Increment"
-        app:layout_constraintBaseline_toBaselineOf="@+id/decrement"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/decrement" />
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="15dp"
+        android:text="Answer2"
+        app:layout_constraintBottom_toTopOf="@+id/answer3"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/answer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="16dp"
+        android:text="Answer3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
