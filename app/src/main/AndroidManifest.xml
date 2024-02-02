@@ -2,7 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,11 +21,23 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".QuizActivity"
+            android:name=".activity.AddQuestionActivity"
             android:exported="false" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.GalleryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activity.ScoreActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activity.QuizActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
