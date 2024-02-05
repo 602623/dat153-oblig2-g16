@@ -9,10 +9,10 @@ public class Question {
     private boolean answeredCorrectly = false;
     private final int id;
 
-    public Question(int image, String name, int resId) {
-        this.imageResId = image;
+    public Question(int resId, String name, int id) {
+        this.imageResId = resId;
         this.answer = name;
-        this.id = resId;
+        this.id = id;
     }
 
     public Question(Bitmap bitmap, String name, int id) {
