@@ -3,14 +3,14 @@ package no.hvl.dat153.oblig1.model;
 import android.graphics.Bitmap;
 
 public class Question {
-    private int imageResId = 0;
+    private int resId = 0;
     private Bitmap bitmap = null;
     private final String answer;
     private boolean answeredCorrectly = false;
     private final int id;
 
     public Question(int resId, String name, int id) {
-        this.imageResId = resId;
+        this.resId = resId;
         this.answer = name;
         this.id = id;
     }
@@ -22,7 +22,7 @@ public class Question {
     }
 
     public int getImageResId() {
-        return imageResId;
+        return resId;
     }
 
     public String getAnswer() {
