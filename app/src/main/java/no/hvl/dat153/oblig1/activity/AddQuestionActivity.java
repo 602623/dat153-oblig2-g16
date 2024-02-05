@@ -2,7 +2,7 @@ package no.hvl.dat153.oblig1.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -52,30 +52,25 @@ public class AddQuestionActivity extends AppCompatActivity {
     }
 
     // Get the bitmap from the imageUri using the ImageDecoder
-    private Bitmap getBitmap(Uri uri) {
-        ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), uri);
-        try {
-            return ImageDecoder.decodeBitmap(source);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    private Bitmap getBitmap(Uri uri) throws IOException {
+        return BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
     }
 
     private void saveQuestion(String text, Uri image) {
         // Only save the question if text and image is not null
         if (text.length() > 0 && image != null) {
-            Bitmap imageBitmap = getBitmap(image);
+            try {
+                // Only save the question if the bitmap was correctly created
+                Bitmap imageBitmap = getBitmap(image);
 
-            // Only save the question if the bitmap is not null (bitmap was correctly decoded from the uri)
-            if (imageBitmap != null) {
                 MyApp app = (MyApp) getApplication();
                 app.addQuestion(new Question(imageBitmap, text, app.getLength()));
 
                 // Redirect to the gallery activity
                 startActivity(new Intent(this, GalleryActivity.class));
                 finish();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
