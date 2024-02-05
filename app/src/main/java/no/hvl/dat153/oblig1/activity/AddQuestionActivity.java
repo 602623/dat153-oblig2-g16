@@ -35,7 +35,7 @@ public class AddQuestionActivity extends AppCompatActivity {
         // Register a new activity to pick an image
         ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), result -> {
-                    if (result.getResultCode() == RESULT_OK && result.getData() != null && result.getData().getData() != null) {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         imageUri = result.getData().getData();
                     }
                 }
