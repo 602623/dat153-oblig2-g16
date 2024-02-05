@@ -51,7 +51,6 @@ public class AddQuestionActivity extends AppCompatActivity {
         saveButton.setOnClickListener(v -> saveQuestion(questionText.getText().toString(), imageUri));
     }
 
-    // Get the bitmap from the imageUri using the ImageDecoder
     private Bitmap getBitmap(Uri uri) throws IOException {
         return BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
     }
