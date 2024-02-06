@@ -6,32 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".activity.GalleryActivity">
 
+    <Button
+        android:id="@+id/buttonAsc"
+        android:layout_width="128dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="268dp"
+        android:layout_marginBottom="664dp"
+        android:text="A-Z"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/buttonDesc"
+        android:layout_width="128dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="268dp"
+        android:layout_marginBottom="664dp"
+        android:layoutDirection="rtl"
+        android:text="Z-A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <GridView
         android:id="@+id/gallery_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:columnWidth="100dp"
         android:gravity="center"
         android:numColumns="auto_fit"
         android:scrollbars="horizontal"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAsc"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layoutDirection="rtl"
-        android:translationY="-70dp"
-        android:layout_marginEnd="10dp"
-        android:text="+"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gallery_layout"  />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:contentDescription="Add new image"
+        android:translationX="10dp"
+        android:translationY="-5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
