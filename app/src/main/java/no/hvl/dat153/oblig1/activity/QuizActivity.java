@@ -21,6 +21,7 @@ import no.hvl.dat153.oblig1.model.Question;
 public class QuizActivity extends AppCompatActivity {
     private ArrayList<Question> questions;
     private int index;
+    private final List<Button> buttons = new ArrayList<>(3);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,6 @@ public class QuizActivity extends AppCompatActivity {
         List<String> answers = getAnswers(questions.get(index));
 
         // Define answer buttons
-        ArrayList<Button> buttons = new ArrayList<>();
         buttons.add(findViewById(R.id.answer1));
         buttons.add(findViewById(R.id.answer2));
         buttons.add(findViewById(R.id.answer3));
@@ -72,13 +72,9 @@ public class QuizActivity extends AppCompatActivity {
         Question askedQuestion = questions.get(index);
         String correctAnswer = askedQuestion.getAnswer();
 
-        button.setOnClickListener(v -> {
-            // Check if the correct answer was clicked
-            if (answer.equals(correctAnswer)) {
-                askedQuestion.setAnsweredCorrectly(true);
-            }
-
-            // Redirect to the next question, or the score page
+        Button nextButton = findViewById(R.id.next);
+        nextButton.setOnClickListener(v -> {
+            // redirect to next question, or score page'
             Intent intent = new Intent(this, ScoreActivity.class);
             if (index < questions.size() - 1) {
                 // Redirect to the next question
@@ -89,6 +85,28 @@ public class QuizActivity extends AppCompatActivity {
             // Perform the redirect
             startActivity(intent);
             finish();
+        });
+
+        button.setOnClickListener(v -> {
+            // Check if the correct answer was clicked
+            if (answer.equals(correctAnswer)) {
+                askedQuestion.setAnsweredCorrectly(true);
+            }
+
+            buttons.forEach(b -> {
+                b.setEnabled(false); // Disable all buttons
+
+                // Indicate the correct answer and the clicked answer using colors
+                if (b.getText().equals(correctAnswer)) {
+                    b.setBackgroundColor(getColor(R.color.correct));
+                    b.setTextColor(getColor(R.color.white));
+                } else if (b.getText().equals(answer)) {
+                    b.setBackgroundColor(getColor(R.color.incorrect));
+                    b.setTextColor(getColor(R.color.white));
+                }
+            });
+
+            nextButton.setEnabled(true); // Enable the next button
         });
     }
 
