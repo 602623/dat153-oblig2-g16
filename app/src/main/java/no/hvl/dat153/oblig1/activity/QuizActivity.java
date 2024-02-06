@@ -19,7 +19,7 @@ import no.hvl.dat153.oblig1.R;
 import no.hvl.dat153.oblig1.model.Question;
 
 public class QuizActivity extends AppCompatActivity {
-    private ArrayList<Question> questions;
+    private List<Question> questions;
     private int index;
     private final List<Button> buttons = new ArrayList<>(3);
 

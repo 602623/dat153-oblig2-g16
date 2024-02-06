@@ -6,8 +6,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import no.hvl.dat153.oblig1.MyApp;
 import no.hvl.dat153.oblig1.R;
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         MyApp app = (MyApp) getApplication();
-        ArrayList<Question> questions = app.getQuestions();
+        List<Question> questions = app.getQuestions();
 
         // Setup the default questions
         if (questions.isEmpty()) {
@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Redirect to the gallery-activity
         addPhoto.setOnClickListener(v -> {
-            startActivity(new Intent(this, GalleryActivity.class));
+            Intent intent = new Intent(this, AddQuestionActivity.class);
+            startActivity(intent);
         });
     }
 }

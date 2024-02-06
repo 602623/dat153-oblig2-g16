@@ -3,15 +3,16 @@ package no.hvl.dat153.oblig1;
 import android.app.Application;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import no.hvl.dat153.oblig1.model.Question;
 
 public class MyApp extends Application {
-    private final ArrayList<Question> questions = new ArrayList<>();
+    private final List<Question> questions = new ArrayList<>();
     private int length = 0;
     private boolean reverseSort = false;
 
-    public ArrayList<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 

@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import no.hvl.dat153.oblig1.MyApp;
 import no.hvl.dat153.oblig1.R;
@@ -19,7 +19,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         // Get the global application object and get all the questions
         MyApp app = (MyApp) getApplication();
-        ArrayList<Question> questions = app.getQuestions();
+        List<Question> questions = app.getQuestions();
 
         // Find the text-view and set the score
         TextView view = findViewById(R.id.text_view);

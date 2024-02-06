@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import no.hvl.dat153.oblig1.MyApp;
 import no.hvl.dat153.oblig1.R;
@@ -18,7 +18,7 @@ import no.hvl.dat153.oblig1.adapter.ImageAdapter;
 import no.hvl.dat153.oblig1.model.Question;
 
 public class GalleryActivity extends AppCompatActivity {
-    private ArrayList<Question> questions;
+    private List<Question> questions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
