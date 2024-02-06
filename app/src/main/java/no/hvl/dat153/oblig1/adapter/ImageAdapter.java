@@ -8,16 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import no.hvl.dat153.oblig1.R;
 import no.hvl.dat153.oblig1.model.Question;
 
 public class ImageAdapter extends BaseAdapter {
     private final Context context;
-    private final ArrayList<Question> questions;
+    private final List<Question> questions;
 
-    public ImageAdapter(Context context, ArrayList<Question> questions) {
+    public ImageAdapter(Context context, List<Question> questions) {
         this.context = context;
         this.questions = questions;
     }

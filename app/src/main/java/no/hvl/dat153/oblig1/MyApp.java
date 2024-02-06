@@ -9,6 +9,7 @@ import no.hvl.dat153.oblig1.model.Question;
 public class MyApp extends Application {
     private final ArrayList<Question> questions = new ArrayList<>();
     private int length = 0;
+    private boolean reverseSort = false;
 
     public ArrayList<Question> getQuestions() {
         return questions;
@@ -24,5 +25,13 @@ public class MyApp extends Application {
         length++;
 
         return len;
+    }
+
+    public boolean isReverseSort() {
+        return reverseSort;
+    }
+
+    public void setReverseSort(boolean reverseSort) {
+        this.reverseSort = reverseSort;
     }
 }
