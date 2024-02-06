@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Redirect to the gallery-activity
         addPhoto.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddQuestionActivity.class);
+            Intent intent = new Intent(this, GalleryActivity.class);
             startActivity(intent);
         });
     }
