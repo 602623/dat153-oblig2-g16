@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.GridView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,6 +21,7 @@ import no.hvl.dat153.oblig1.model.Question;
 
 public class GalleryActivity extends AppCompatActivity {
     private List<Question> questions;
+    private ActivityResultLauncher<Intent> addQuestionLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +49,19 @@ public class GalleryActivity extends AppCompatActivity {
         // Use a custom adapter to display the images with text
         gridView.setAdapter(new ImageAdapter(this, questions));
 
+        // Reload and remove the current activity when a new question is added
+        addQuestionLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        startActivity(getIntent());
+                        finish();
+                    }
+                }
+        );
+
         button.setOnClickListener(v -> {
-            startActivity(new Intent(this, AddQuestionActivity.class));
-            finish();
+            Intent intent = new Intent(this, AddQuestionActivity.class);
+            addQuestionLauncher.launch(intent);
         });
 
 

@@ -66,7 +66,8 @@ public class AddQuestionActivity extends AppCompatActivity {
                 app.addQuestion(new Question(imageBitmap, text, app.getLength()));
 
                 // Redirect to the gallery activity
-                startActivity(new Intent(this, GalleryActivity.class));
+                Intent intent = new Intent(this, GalleryActivity.class);
+                setResult(RESULT_OK, intent);
                 finish();
             } catch (IOException e) {
                 e.printStackTrace();
