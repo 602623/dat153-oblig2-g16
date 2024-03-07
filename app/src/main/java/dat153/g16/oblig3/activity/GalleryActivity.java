@@ -12,16 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Comparator;
-import java.util.List;
 
-import dat153.g16.oblig3.R;
-import dat153.g16.oblig3.MyApp;
 import dat153.g16.oblig3.R;
 import dat153.g16.oblig3.adapter.ImageAdapter;
 import dat153.g16.oblig3.model.Question;
+import dat153.g16.oblig3.model.QuestionRepo;
 
 public class GalleryActivity extends AppCompatActivity {
-    private List<Question> questions;
     private ActivityResultLauncher<Intent> addQuestionLauncher;
 
     @Override
@@ -33,22 +30,20 @@ public class GalleryActivity extends AppCompatActivity {
         Button sortAscButton = findViewById(R.id.buttonAsc);
         Button sortDescButton = findViewById(R.id.buttonDesc);
 
-        MyApp app = (MyApp) getApplication();
-        questions = app.getQuestions();
-        if (!app.isReverseSort()) {
-            toggleButtons(sortAscButton, sortDescButton);
-            questions.sort(Comparator.comparing(Question::getAnswer));
-        } else {
-            toggleButtons(sortAscButton, sortDescButton);
-            questions.sort(Comparator.comparing(Question::getAnswer).reversed());
-        }
-
         // Get the components
         FloatingActionButton button = findViewById(R.id.button);
         GridView gridView = findViewById(R.id.gallery_layout);
 
-        // Use a custom adapter to display the images with text
-        gridView.setAdapter(new ImageAdapter(this, questions));
+        QuestionRepo repo = QuestionRepo.getInstance(getApplication());
+        repo.getAllQuestions().observe(this, questions -> {
+            // Initialize the buttons to the correct state
+            sortDescButton.setEnabled(true);
+            sortAscButton.setEnabled(false);
+
+            // Set the default sort order
+            questions.sort(Comparator.comparing(Question::getAnswer));
+            gridView.setAdapter(new ImageAdapter(this, questions));
+        });
 
         // Reload and remove the current activity when a new question is added
         addQuestionLauncher = registerForActivityResult(
@@ -65,21 +60,20 @@ public class GalleryActivity extends AppCompatActivity {
             addQuestionLauncher.launch(intent);
         });
 
+        repo.getAllQuestions().observe(this, questions -> {
+            // Sort the questions ascending
+            sortAscButton.setOnClickListener(v -> {
+                questions.sort(Comparator.comparing(Question::getAnswer));
+                gridView.setAdapter(new ImageAdapter(this, questions));
+                toggleButtons(sortAscButton, sortDescButton);
+            });
 
-        // Sort the questions ascending
-        sortAscButton.setOnClickListener(v -> {
-            questions.sort(Comparator.comparing(Question::getAnswer));
-            gridView.setAdapter(new ImageAdapter(this, questions));
-            toggleButtons(sortAscButton, sortDescButton);
-            app.setReverseSort(false);
-        });
-
-        // Sort the questions descending
-        sortDescButton.setOnClickListener(v -> {
-            questions.sort(Comparator.comparing(Question::getAnswer).reversed());
-            gridView.setAdapter(new ImageAdapter(this, questions));
-            toggleButtons(sortDescButton, sortAscButton);
-            app.setReverseSort(true);
+            // Sort the questions descending
+            sortDescButton.setOnClickListener(v -> {
+                questions.sort(Comparator.comparing(Question::getAnswer).reversed());
+                gridView.setAdapter(new ImageAdapter(this, questions));
+                toggleButtons(sortDescButton, sortAscButton);
+            });
         });
     }
 

@@ -19,7 +19,7 @@ import dat153.g16.oblig3.R;
 import dat153.g16.oblig3.model.Question;
 
 public class QuizActivity extends AppCompatActivity {
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
     private int index;
     private final List<Button> buttons = new ArrayList<>(3);
 
@@ -28,11 +28,11 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        MyApp app = (MyApp) getApplication();
-        questions = app.getQuestions();
-
         // Store the index from the intent
         index = getIntent().getIntExtra("index", 0);
+
+        MyApp app = (MyApp) getApplication();
+        questions = app.getQuestions();
 
         // Get the view components
         ImageView imageView = findViewById(R.id.image_view);
@@ -65,7 +65,6 @@ public class QuizActivity extends AppCompatActivity {
             button.setText(answer);
             handleClick(button, answer);
         }
-
     }
 
     private void handleClick(Button button, String answer) {
@@ -90,7 +89,8 @@ public class QuizActivity extends AppCompatActivity {
         button.setOnClickListener(v -> {
             // Check if the correct answer was clicked
             if (answer.equals(correctAnswer)) {
-                askedQuestion.setAnsweredCorrectly(true);
+                MyApp app = (MyApp) getApplication();
+                app.incrementScore();
             }
 
             buttons.forEach(b -> {

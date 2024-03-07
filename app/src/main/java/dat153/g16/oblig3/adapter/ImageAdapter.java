@@ -18,6 +18,8 @@ public class ImageAdapter extends BaseAdapter {
     private final List<Question> questions;
 
     public ImageAdapter(Context context, List<Question> questions) {
+        super();
+
         this.context = context;
         this.questions = questions;
     }
@@ -51,11 +53,11 @@ public class ImageAdapter extends BaseAdapter {
 
         Question question = questions.get(index);
         if (question.isUsingUri()) {
-            // Question is using a bitmap
+            // Question is using uri
             imageView.setImageURI(question.getUri());
         } else {
-            // Question is using a resource id
-            imageView.setImageResource(question.getImageResId());
+            // Question is using resource id
+            imageView.setImageResource(question.getResId());
         }
         // Set the text view to the answer
         textView.setText(question.getAnswer());

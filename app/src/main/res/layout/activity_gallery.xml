@@ -11,7 +11,7 @@
         android:layout_width="128dp"
         android:layout_height="50dp"
         android:layout_marginEnd="268dp"
-        android:enabled="true"
+        android:enabled="false"
         android:text="A-Z"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

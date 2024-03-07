@@ -1,11 +1,8 @@
 package dat153.g16.oblig3.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -13,11 +10,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 
-import dat153.g16.oblig3.MyApp;
 import dat153.g16.oblig3.R;
 import dat153.g16.oblig3.model.Question;
+import dat153.g16.oblig3.model.QuestionRepo;
 
 public class AddQuestionActivity extends AppCompatActivity {
     private Uri imageUri;
@@ -59,8 +55,8 @@ public class AddQuestionActivity extends AppCompatActivity {
     private void saveQuestion(String text, Uri image) {
         // Only save the question if text and image is not null
         if (text.length() > 0 && image != null) {
-            MyApp app = (MyApp) getApplication();
-            app.addQuestion(new Question(image, text, app.getLength()));
+            QuestionRepo repo = QuestionRepo.getInstance(getApplication());
+            repo.insert(new Question(image.toString(), text));
 
             // Redirect to the gallery activity
             Intent intent = new Intent(this, GalleryActivity.class);
