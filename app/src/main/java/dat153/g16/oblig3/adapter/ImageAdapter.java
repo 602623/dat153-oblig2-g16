@@ -1,4 +1,4 @@
-package no.hvl.dat153.oblig1.adapter;
+package dat153.g16.oblig3.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import no.hvl.dat153.oblig1.R;
-import no.hvl.dat153.oblig1.model.Question;
+import dat153.g16.oblig3.R;
+import dat153.g16.oblig3.model.Question;
 
 public class ImageAdapter extends BaseAdapter {
     private final Context context;

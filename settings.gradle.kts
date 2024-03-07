@@ -13,5 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Oblig1"
+rootProject.name = "Oblig3-g16"
 include(":app")
+ 

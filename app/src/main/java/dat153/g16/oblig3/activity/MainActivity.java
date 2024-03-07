@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Collections;
 import java.util.List;
 
-import no.hvl.dat153.oblig1.MyApp;
-import no.hvl.dat153.oblig1.R;
-import no.hvl.dat153.oblig1.model.Question;
+import dat153.g16.oblig3.activity.GalleryActivity;
+import dat153.g16.oblig3.activity.QuizActivity;
+import dat153.g16.oblig3.MyApp;
+import dat153.g16.oblig3.R;
+import dat153.g16.oblig3.model.Question;
 
 public class MainActivity extends AppCompatActivity {
     @Override

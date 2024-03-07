@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "no.hvl.dat153.oblig1"
+    namespace = "dat153.g16.oblig3"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "no.hvl.dat153.oblig1"
+        applicationId = "dat153.g16.oblig3"
         minSdk = 34
         targetSdk = 34
         versionCode = 1

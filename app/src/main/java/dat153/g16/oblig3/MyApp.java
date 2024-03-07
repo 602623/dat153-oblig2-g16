@@ -1,4 +1,4 @@
-package no.hvl.dat153.oblig1;
+package dat153.g16.oblig3;
 
 import android.app.Application;
 

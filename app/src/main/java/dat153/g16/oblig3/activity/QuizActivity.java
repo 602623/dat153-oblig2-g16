@@ -1,4 +1,4 @@
-package no.hvl.dat153.oblig1.activity;
+package dat153.g16.oblig3.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import no.hvl.dat153.oblig1.MyApp;
-import no.hvl.dat153.oblig1.R;
-import no.hvl.dat153.oblig1.model.Question;
+import dat153.g16.oblig3.MyApp;
+import dat153.g16.oblig3.R;
+import dat153.g16.oblig3.model.Question;
 
 public class QuizActivity extends AppCompatActivity {
     private List<Question> questions;
