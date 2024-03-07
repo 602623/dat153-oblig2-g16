@@ -5,12 +5,21 @@ import android.app.Application;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.hvl.dat153.oblig1.model.Question;
+import dat153.g16.oblig3.model.Question;
 
 public class MyApp extends Application {
     private final List<Question> questions = new ArrayList<>();
     private int length = 0;
     private boolean reverseSort = false;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        addQuestion(new Question(R.drawable.cat, "cat", getLength()));
+        addQuestion(new Question(R.drawable.coala, "coala", getLength()));
+        addQuestion(new Question(R.drawable.dog, "dog", getLength()));
+    }
 
     public List<Question> getQuestions() {
         return questions;

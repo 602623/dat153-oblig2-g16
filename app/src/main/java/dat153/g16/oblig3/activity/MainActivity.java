@@ -1,4 +1,4 @@
-package no.hvl.dat153.oblig1.activity;
+package dat153.g16.oblig3.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Collections;
 import java.util.List;
 
-import dat153.g16.oblig3.activity.GalleryActivity;
-import dat153.g16.oblig3.activity.QuizActivity;
 import dat153.g16.oblig3.MyApp;
 import dat153.g16.oblig3.R;
 import dat153.g16.oblig3.model.Question;
@@ -24,13 +22,6 @@ public class MainActivity extends AppCompatActivity {
         MyApp app = (MyApp) getApplication();
         List<Question> questions = app.getQuestions();
 
-        // Setup the default questions
-        if (questions.isEmpty()) {
-            app.addQuestion(new Question(R.drawable.cat, "cat", app.getLength()));
-            app.addQuestion(new Question(R.drawable.coala, "coala", app.getLength()));
-            app.addQuestion(new Question(R.drawable.dog, "dog", app.getLength()));
-        }
-
         // Get the components (buttons)
         Button startQuiz = findViewById(R.id.start_quiz);
         Button addPhoto = findViewById(R.id.add_photo);
@@ -39,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         startQuiz.setOnClickListener(v -> {
             Collections.shuffle(questions);
             Intent intent = new Intent(this, QuizActivity.class);
-            intent.putExtra("index", 0); // always start at the first random question
             startActivity(intent);
         });
 
