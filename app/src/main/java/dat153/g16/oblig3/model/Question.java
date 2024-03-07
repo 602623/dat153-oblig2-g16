@@ -1,10 +1,10 @@
 package dat153.g16.oblig3.model;
 
-import android.graphics.Bitmap;
+import android.net.Uri;
 
 public class Question {
     private int resId = 0;
-    private Bitmap bitmap = null;
+    private Uri uri = null;
     private final String answer;
     private boolean answeredCorrectly = false;
     private final int id;
@@ -15,8 +15,8 @@ public class Question {
         this.id = id;
     }
 
-    public Question(Bitmap bitmap, String name, int id) {
-        this.bitmap = bitmap;
+    public Question(Uri uri, String name, int id) {
+        this.uri = uri;
         this.answer = name;
         this.id = id;
     }
@@ -37,12 +37,12 @@ public class Question {
         this.answeredCorrectly = answeredCorrectly;
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
+    public Uri getUri() {
+        return uri;
     }
 
-    public boolean isUsingBitmap() {
-        return bitmap != null;
+    public boolean isUsingUri() {
+        return uri != null;
     }
 
     public int getId() {

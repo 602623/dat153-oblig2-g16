@@ -37,13 +37,18 @@ public class AddQuestionActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(), result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         imageUri = result.getData().getData();
+
+                        final int takeFlags = (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        getContentResolver().takePersistableUriPermission(imageUri, takeFlags);
                     }
                 }
         );
 
         // Start the new activity as defined above
         selectImageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/*");
             pickImageLauncher.launch(intent);
         });
 
@@ -51,27 +56,16 @@ public class AddQuestionActivity extends AppCompatActivity {
         saveButton.setOnClickListener(v -> saveQuestion(questionText.getText().toString(), imageUri));
     }
 
-    private Bitmap getBitmap(Uri uri) throws IOException {
-        return BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-    }
-
     private void saveQuestion(String text, Uri image) {
         // Only save the question if text and image is not null
         if (text.length() > 0 && image != null) {
-            try {
-                // Only save the question if the bitmap was correctly created
-                Bitmap imageBitmap = getBitmap(image);
+            MyApp app = (MyApp) getApplication();
+            app.addQuestion(new Question(image, text, app.getLength()));
 
-                MyApp app = (MyApp) getApplication();
-                app.addQuestion(new Question(imageBitmap, text, app.getLength()));
-
-                // Redirect to the gallery activity
-                Intent intent = new Intent(this, GalleryActivity.class);
-                setResult(RESULT_OK, intent);
-                finish();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // Redirect to the gallery activity
+            Intent intent = new Intent(this, GalleryActivity.class);
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
 }

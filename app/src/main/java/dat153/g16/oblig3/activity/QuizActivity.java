@@ -43,8 +43,8 @@ public class QuizActivity extends AppCompatActivity {
 
         // Render the bitmap or image-resource
         Question question = questions.get(index);
-        if (question.isUsingBitmap()) {
-            imageView.setImageBitmap(question.getBitmap());
+        if (question.isUsingUri()) {
+            imageView.setImageURI(question.getUri());
         } else {
             imageView.setImageResource(question.getImageResId());
         }

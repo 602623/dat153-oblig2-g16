@@ -50,9 +50,9 @@ public class ImageAdapter extends BaseAdapter {
         TextView textView = view.findViewById(R.id.text);
 
         Question question = questions.get(index);
-        if (question.isUsingBitmap()) {
+        if (question.isUsingUri()) {
             // Question is using a bitmap
-            imageView.setImageBitmap(question.getBitmap());
+            imageView.setImageURI(question.getUri());
         } else {
             // Question is using a resource id
             imageView.setImageResource(question.getImageResId());
