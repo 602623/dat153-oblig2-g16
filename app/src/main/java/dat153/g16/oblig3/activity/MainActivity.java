@@ -44,5 +44,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, GalleryActivity.class);
             startActivity(intent);
         });
+
+        reset.setOnClickListener(v -> {
+            QuestionRepo repo = QuestionRepo.getInstance(getApplication());
+
+            repo.removeAll();
+            repo.insert(new Question(R.drawable.cat, "cat"));
+            repo.insert(new Question(R.drawable.coala, "coala"));
+            repo.insert(new Question(R.drawable.dog, "dog"));
+        });
     }
 }
