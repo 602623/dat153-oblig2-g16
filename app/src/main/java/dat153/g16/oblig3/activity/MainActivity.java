@@ -6,8 +6,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Collections;
-
 import dat153.g16.oblig3.MyApp;
 import dat153.g16.oblig3.R;
 import dat153.g16.oblig3.model.Question;
