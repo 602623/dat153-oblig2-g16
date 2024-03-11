@@ -31,6 +31,18 @@ public class QuestionRepo {
         return allQuestions;
     }
 
+    public LiveData<Question> getNextQuestion() {
+        return questionDAO.getNextQuestion();
+    }
+
+    public void update(Question question) {
+        executor.execute(() -> questionDAO.update(question));
+    }
+
+    public void resetAll() {
+        executor.execute(questionDAO::resetAll);
+    }
+
     public void insert(Question question) {
         executor.execute(() -> questionDAO.insert(question));
     }

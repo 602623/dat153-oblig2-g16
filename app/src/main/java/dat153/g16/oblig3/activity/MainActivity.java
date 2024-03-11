@@ -24,20 +24,17 @@ public class MainActivity extends AppCompatActivity {
         Button addPhoto = findViewById(R.id.add_photo);
         Button reset = findViewById(R.id.reset);
 
-        QuestionRepo.getInstance(getApplication())
-                .getAllQuestions().observe(this, questions -> {
-                    startQuiz.setOnClickListener(v -> {
-                        MyApp app = (MyApp) getApplication();
-                        app.resetScore();
+        startQuiz.setOnClickListener(v -> {
+            MyApp app = (MyApp) getApplication();
+            app.resetScore();
 
-                        // Shuffle the questions, so they are in a random order
-                        Collections.shuffle(questions);
-                        app.setQuestions(questions);
+            // Mark all questions as unanswered
+            QuestionRepo.getInstance(getApplication()).resetAll();
 
-                        Intent intent = new Intent(this, QuizActivity.class);
-                        startActivity(intent);
-                    });
-                });
+            // Redirect to the quiz-activity
+            Intent intent = new Intent(this, QuizActivity.class);
+            startActivity(intent);
+        });
 
         // Redirect to the gallery-activity
         addPhoto.setOnClickListener(v -> {

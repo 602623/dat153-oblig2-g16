@@ -7,21 +7,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import dat153.g16.oblig3.MyApp;
 import dat153.g16.oblig3.R;
 import dat153.g16.oblig3.model.Question;
+import dat153.g16.oblig3.model.QuestionRepo;
 
 public class QuizActivity extends AppCompatActivity {
-    private List<Question> questions = new ArrayList<>();
+    private Question askedQuestion;
     private int index;
     private final List<Button> buttons = new ArrayList<>(3);
+    private final QuestionRepo repo = QuestionRepo.getInstance(getApplication());
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,55 +35,61 @@ public class QuizActivity extends AppCompatActivity {
         // Store the index from the intent
         index = getIntent().getIntExtra("index", 0);
 
-        MyApp app = (MyApp) getApplication();
-        questions = app.getQuestions();
-
         // Get the view components
         ImageView imageView = findViewById(R.id.image_view);
         TextView textView = findViewById(R.id.text_view);
 
         // Set the text for the quiz-progress
-        textView.setText(String.format(Locale.getDefault(), "%d / %d", index + 1, questions.size()));
+        textView.setText(String.format(Locale.getDefault(), "question nr.%d", index + 1));
 
         // Render the bitmap or image-resource
-        Question question = questions.get(index);
-        if (question.isUsingUri()) {
-            imageView.setImageURI(question.getUri());
-        } else {
-            imageView.setImageResource(question.getImageResId());
-        }
+        LiveData<Question> questionLive = repo.getNextQuestion();
+        questionLive.observe(this, question -> {
+            if (question == null) {
+                Intent intent = new Intent(this, ScoreActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
 
-        // Get the shuffled answers
-        List<String> answers = getAnswers(questions.get(index));
+            if (question.isUsingUri()) {
+                imageView.setImageURI(question.getUri());
+            } else {
+                imageView.setImageResource(question.getImageResId());
+            }
 
-        // Define answer buttons
-        buttons.add(findViewById(R.id.answer1));
-        buttons.add(findViewById(R.id.answer2));
-        buttons.add(findViewById(R.id.answer3));
+            // Get the shuffled answers
+            getAnswers(question, answers -> {
+                askedQuestion = question;
 
-        // Set the handler and text for each answer-button
-        for (int i = 0; i < buttons.size(); i++) {
-            Button button = buttons.get(i);
-            String answer = answers.get(i);
+                // Define answer buttons
+                buttons.add(findViewById(R.id.answer1));
+                buttons.add(findViewById(R.id.answer2));
+                buttons.add(findViewById(R.id.answer3));
 
-            button.setText(answer);
-            handleClick(button, answer);
-        }
+                // Set the handler and text for each answer-button
+                for (int i = 0; i < Math.min(buttons.size(), answers.size()); i++) {
+                    Button button = buttons.get(i);
+                    String answer = answers.get(i);
+
+                    button.setText(answer);
+                    handleClick(button, answer);
+                }
+            });
+        });
+
     }
 
     private void handleClick(Button button, String answer) {
-        Question askedQuestion = questions.get(index);
         String correctAnswer = askedQuestion.getAnswer();
 
         Button nextButton = findViewById(R.id.next);
         nextButton.setOnClickListener(v -> {
-            // redirect to next question, or score page'
-            Intent intent = new Intent(this, ScoreActivity.class);
-            if (index < questions.size() - 1) {
-                // Redirect to the next question
-                intent = new Intent(this, this.getClass());
-                intent.putExtra("index", index + 1);
-            }
+            repo.update(askedQuestion);
+
+            // redirect to next question
+            Intent intent = new Intent(this, this.getClass());
+            intent.putExtra("index", index + 1);
 
             // Perform the redirect
             startActivity(intent);
@@ -100,6 +110,8 @@ public class QuizActivity extends AppCompatActivity {
                 if (b.getText().equals(correctAnswer)) {
                     b.setBackgroundColor(getColor(R.color.correct));
                     b.setTextColor(getColor(R.color.white));
+
+                    askedQuestion.setAnswered(true);
                 } else if (b.getText().equals(answer)) {
                     b.setBackgroundColor(getColor(R.color.incorrect));
                     b.setTextColor(getColor(R.color.white));
@@ -110,20 +122,18 @@ public class QuizActivity extends AppCompatActivity {
         });
     }
 
-    private List<String> getAnswers(Question question) {
-        // Get 2 invalid answers
-        List<String> answers = questions.stream()
-                .filter(q -> !q.equals(question))
-                .limit(2)
-                .map(Question::getAnswer)
-                .collect(Collectors.toList());
+    private void getAnswers(Question question, Consumer<List<String>> callback) {
+        repo.getAllQuestions().observe(this, questions -> {
+            List<String> answers = questions.stream()
+                    .filter(q -> !q.equals(question))
+                    .limit(2)
+                    .map(Question::getAnswer)
+                    .collect(Collectors.toList());
 
-        // add the correct answer
-        answers.add(question.getAnswer());
+            // add the correct answer
+            answers.add(question.getAnswer());
 
-        // shuffle the answers
-        Collections.shuffle(answers);
-
-        return answers;
+            callback.accept(answers);
+        });
     }
 }

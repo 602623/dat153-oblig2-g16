@@ -5,6 +5,8 @@ import android.net.Uri;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity
 public class Question {
     @PrimaryKey(autoGenerate = true)
@@ -12,6 +14,7 @@ public class Question {
     private int resId = 0;
     private String uriString = null;
     private String answer;
+    private boolean answered = false;
 
     public Question() {
     }
@@ -66,11 +69,32 @@ public class Question {
         this.uriString = uriString;
     }
 
+    public boolean isAnswered() {
+        return answered;
+    }
+
+    public void setAnswered(boolean answered) {
+        this.answered = answered;
+    }
+
     public Uri getUri() {
         return Uri.parse(uriString);
     }
 
     public boolean isUsingUri() {
         return uriString != null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question = (Question) o;
+        return id == question.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
