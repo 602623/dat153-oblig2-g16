@@ -45,6 +45,12 @@ public class GalleryActivity extends AppCompatActivity {
             gridView.setAdapter(new ImageAdapter(this, questions));
         });
 
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            Question questionToDelete = (Question) parent.getItemAtPosition(position);
+
+            repo.delete(questionToDelete);
+        });
+
         // Reload and remove the current activity when a new question is added
         addQuestionLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), result -> {

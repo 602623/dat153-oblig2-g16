@@ -2,6 +2,7 @@ package dat153.g16.oblig3.model;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -16,12 +17,11 @@ public interface QuestionDAO {
     @Query("SELECT * FROM Question ORDER BY answer ASC")
     LiveData<List<Question>> getAllQuestions();
 
-    // get a random question
-    @Query("SELECT * FROM Question WHERE answered = FALSE ORDER BY RANDOM() LIMIT 1")
-    LiveData<Question> getNextQuestion();
+    @Query("SELECT * FROM Question ORDER BY RANDOM()")
+    LiveData<List<Question>> getRandomQuestions();
 
-    @Query("DELETE FROM Question")
-    void deleteAll();
+    @Delete
+    void delete(Question question);
 
     @Query("UPDATE Question SET answered = FALSE")
     void resetAll();

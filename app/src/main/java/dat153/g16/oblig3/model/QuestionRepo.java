@@ -11,13 +11,11 @@ import java.util.concurrent.Executors;
 public class QuestionRepo {
     private static QuestionRepo INSTANCE;
     private final QuestionDAO questionDAO;
-    private final LiveData<List<Question>> allQuestions;
     private final ExecutorService executor = Executors.newFixedThreadPool(2);
 
     public QuestionRepo(Application application) {
         QuestionDatabase db = QuestionDatabase.getDatabase(application);
         questionDAO = db.simpleQuestionDAO();
-        allQuestions = questionDAO.getAllQuestions();
     }
 
     public static synchronized QuestionRepo getInstance(Application application) {
@@ -28,11 +26,11 @@ public class QuestionRepo {
     }
 
     public LiveData<List<Question>> getAllQuestions() {
-        return allQuestions;
+        return questionDAO.getAllQuestions();
     }
 
-    public LiveData<Question> getNextQuestion() {
-        return questionDAO.getNextQuestion();
+    public LiveData<List<Question>> getRandomQuestions() {
+        return questionDAO.getRandomQuestions();
     }
 
     public void update(Question question) {
@@ -47,7 +45,7 @@ public class QuestionRepo {
         executor.execute(() -> questionDAO.insert(question));
     }
 
-    public void removeAll() {
-        executor.execute(questionDAO::deleteAll);
+    public void delete(Question question) {
+        executor.execute(() -> questionDAO.delete(question));
     }
 }

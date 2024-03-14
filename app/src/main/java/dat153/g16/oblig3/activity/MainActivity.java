@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import dat153.g16.oblig3.MyApp;
 import dat153.g16.oblig3.R;
-import dat153.g16.oblig3.model.Question;
 import dat153.g16.oblig3.model.QuestionRepo;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
         // Get the components (buttons)
         Button startQuiz = findViewById(R.id.start_quiz);
         Button addPhoto = findViewById(R.id.add_photo);
-        Button reset = findViewById(R.id.reset);
 
         startQuiz.setOnClickListener(v -> {
             MyApp app = (MyApp) getApplication();
@@ -38,15 +36,6 @@ public class MainActivity extends AppCompatActivity {
         addPhoto.setOnClickListener(v -> {
             Intent intent = new Intent(this, GalleryActivity.class);
             startActivity(intent);
-        });
-
-        reset.setOnClickListener(v -> {
-            QuestionRepo repo = QuestionRepo.getInstance(getApplication());
-
-            repo.removeAll();
-            repo.insert(new Question(R.drawable.cat, "cat"));
-            repo.insert(new Question(R.drawable.coala, "coala"));
-            repo.insert(new Question(R.drawable.dog, "dog"));
         });
     }
 }
