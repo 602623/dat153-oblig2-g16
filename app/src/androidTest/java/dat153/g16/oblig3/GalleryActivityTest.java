@@ -62,8 +62,7 @@ public class GalleryActivityTest {
         onView(withId(R.id.gallery_layout)).check(matches(new TypeSafeMatcher<View>() {
             @Override
             protected boolean matchesSafely(View item) {
-                int currentCount = getCount(item);
-                return currentCount == initialCount[0] - 1;
+                return getCount(item) == initialCount[0] - 1;
             }
 
             @Override
@@ -99,13 +98,10 @@ public class GalleryActivityTest {
         Thread.sleep(500);
 
         onView(withId(R.id.gallery_layout)).check((view, noViewFoundException) -> {
-            int newCount = getCount(view);
-
-            // Use a TypeSafeMatcher to create the condition for your assertion
             TypeSafeMatcher<View> matcher = new TypeSafeMatcher<View>() {
                 @Override
                 protected boolean matchesSafely(View item) {
-                    return newCount == initialCount[0] + 1;
+                    return getCount(view) == initialCount[0] + 1;
                 }
 
                 @Override
