@@ -4,11 +4,55 @@
 
 Både _app-debug-androidTest.apk_ og _app-debug.apk_ blir installert under testing. androidTest versionen er apk-filen som kjører testene, mens den andre er appen som kjører.
 
-## Detailed descript of the steps in the test
+## imageCountDecreaseAfterDeletion
 
-### The expected Result
+This test runs on _GalleryActivity_, but also uses _AddQUestionActivity_
 
-### Which class/metods implements the test
+- get the initial number of questions
+- click on the first question
+- check if the final score is 1 less.
+
+### Expected result
+
+The expected result is that the count should be 1 less than previously.
+
+## QuestionCountIncreasesAfterAdding
+
+This test runs on _GalleryActivity_, but also uses _AddQUestionActivity_
+
+- get the initial number of questions
+- click on add new question
+- create mock data (the image)
+- write text in a text field, and use mock-data
+- click on save, to save the new question
+
+### Expected result
+
+The expected result is that the count should be 1 more than previously
+
+## navigateToQuizActivity
+
+This test runs on _MainActivity_, but also uses _QuizActivity_
+
+- click on the quiz-button
+
+### Expected result
+
+The expected result is that the new screen should be `QuizActivity`
+
+## scoreUpdatesCorrectlyOnCorrectAnswer
+
+This test runs on _QuizActivity_
+
+- Start the Quiz-page
+- Wait 500ms to make sure the page has loaded
+- Check if the old score matches
+- Click on the correct-answer
+- Check if the new score matches
+
+### Expected result
+
+The expected result is that the old score should match `Score: 0`, and that the new score should match `Score: 1`
 
 ## ADB
 
