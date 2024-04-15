@@ -52,16 +52,20 @@ public class GalleryActivityTest {
 
     @Test
     public void imageCountDecreaseAfterDeletion() {
+        // Get initial question count - using atomic variable
         final int[] initialCount = new int[1];
         onView(withId(R.id.gallery_layout)).check(((view, noViewFoundException) -> {
             initialCount[0] = getCount(view);
         }));
 
+        // click on the first element
         onData(anything()).inAdapterView(withId(R.id.gallery_layout)).atPosition(0).perform(click());
 
+        // define a custom matcher for the test
         onView(withId(R.id.gallery_layout)).check(matches(new TypeSafeMatcher<View>() {
             @Override
             protected boolean matchesSafely(View item) {
+                // check if the new score is 1 less
                 return getCount(item) == initialCount[0] - 1;
             }
 
@@ -74,33 +78,39 @@ public class GalleryActivityTest {
 
     @Test
     public void QuestionCountIncreasesAfterAdding() throws InterruptedException {
+        // define the data used for mocking
         int imageResource = R.drawable.cat;
         String packageName = getApplicationContext().getPackageName();
         Uri imageUri = Uri.parse("android.resource://" + packageName + "/" + imageResource);
 
-        // Get initial question count
+        // Get initial question count - using atomic variable
         final int[] initialCount = new int[1];
         onView(withId(R.id.gallery_layout)).check((view, noViewFoundException) -> {
             initialCount[0] = getCount(view);
         });
 
+        // click a button to go to the next page, and wait 500ms to make sure the new page is loaded
         onView(withId(R.id.button)).perform(click());
         Thread.sleep(500);
 
+        // define and use the mock-data
         Intent resultData = new Intent();
         resultData.setData(imageUri);
         Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
         intending(hasAction(Intent.ACTION_OPEN_DOCUMENT)).respondWith(result);
 
+        // perform the inputs, save the question, and wait 500ms to make sure the new page is loaded
         onView(withId(R.id.select_image_button)).perform(click());
         onView(withId(R.id.question_text)).perform(typeText("New Question"), closeSoftKeyboard());
         onView(withId(R.id.save_question)).perform(click());
         Thread.sleep(500);
 
+        // define a custom matcher for the test
         onView(withId(R.id.gallery_layout)).check((view, noViewFoundException) -> {
             TypeSafeMatcher<View> matcher = new TypeSafeMatcher<View>() {
                 @Override
                 protected boolean matchesSafely(View item) {
+                    // check if the new score is 1 more
                     return getCount(view) == initialCount[0] + 1;
                 }
 
@@ -114,6 +124,7 @@ public class GalleryActivityTest {
         });
     }
 
+    // helper function to get the number of elements from a GridView
     private int getCount(View view) {
         GridView gridView = (GridView) view;
         return gridView.getAdapter().getCount();

@@ -36,8 +36,10 @@ public class MainActivityTest {
 
     @Test
     public void navigateToQuizActivity() {
+        // perform a click
         onView(withId(R.id.start_quiz)).perform(click());
 
+        // check if component-name matches the new page
         intended(hasComponent(QuizActivity.class.getName()));
     }
 }

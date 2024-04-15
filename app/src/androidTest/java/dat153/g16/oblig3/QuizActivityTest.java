@@ -38,15 +38,18 @@ public class QuizActivityTest {
 
     @Test
     public void scoreUpdatesCorrectlyOnCorrectAnswer() throws InterruptedException {
+        // Define the variables for the test
         String currentScoreText = "Score: 0";
         String expectedScoreText = "Score: 1";
 
-        // Delay 100ms
+        // Delay 100ms to make sure the database has loaded
         Thread.sleep(500);
 
+        // check initial score, and perform the click-action
         onView(withId(R.id.text_score)).check(matches(withText(currentScoreText)));
         onView(withTagValue(is("correctAnswer"))).perform(click());
 
+        // check if the new score is correct
         onView(withId(R.id.text_score)).check(matches(withText(expectedScoreText)));
     }
 }
