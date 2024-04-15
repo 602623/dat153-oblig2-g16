@@ -15,7 +15,7 @@ import dat153.g16.oblig3.R;
 
 @Database(entities = {Question.class}, version = 1, exportSchema = false)
 public abstract class QuestionDatabase extends RoomDatabase {
-    public abstract QuestionDAO simpleQuestionDAO();
+    public abstract QuestionDAO questionDAO();
 
     private static volatile QuestionDatabase INSTANCE;
 
@@ -32,7 +32,7 @@ public abstract class QuestionDatabase extends RoomDatabase {
                             Log.wtf("debug", "DATABASE CREATED");
 
                             Executors.newSingleThreadScheduledExecutor().execute(() -> {
-                                QuestionDAO dao = INSTANCE.simpleQuestionDAO();
+                                QuestionDAO dao = INSTANCE.questionDAO();
                                 dao.insert(new Question(R.drawable.cat, "cat"));
                                 dao.insert(new Question(R.drawable.coala, "coala"));
                                 dao.insert(new Question(R.drawable.dog, "dog"));

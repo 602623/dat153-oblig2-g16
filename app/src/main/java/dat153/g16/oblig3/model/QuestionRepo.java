@@ -15,7 +15,7 @@ public class QuestionRepo {
 
     public QuestionRepo(Application application) {
         QuestionDatabase db = QuestionDatabase.getDatabase(application);
-        questionDAO = db.simpleQuestionDAO();
+        questionDAO = db.questionDAO();
     }
 
     public static synchronized QuestionRepo getInstance(Application application) {
