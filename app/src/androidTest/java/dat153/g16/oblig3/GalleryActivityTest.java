@@ -35,88 +35,97 @@ import org.junit.runner.RunWith;
 
 import dat153.g16.oblig3.activity.GalleryActivity;
 
+// Klassenotering for å spesifisere bruken av AndroidJUnit4 testkjører
 @RunWith(AndroidJUnit4.class)
 public class GalleryActivityTest {
+
+    // Regel for å starte GalleryActivity før hver test
     @Rule
     public ActivityScenarioRule<GalleryActivity> activityScenarioRule = new ActivityScenarioRule<>(GalleryActivity.class);
 
+    // Oppsettmetode kalt før hver test. Initialiserer Intents-rammeverket
     @Before
     public void setUp() {
         Intents.init();
     }
 
+    // cleanup metode som blir kalt etter hver test. Frigjør Intents-rammeverket for å unngå minnelekkasjer.
     @After
     public void tearDown() {
         Intents.release();
     }
 
+    // Test for å sikre at antallet bilder minker etter at et bilde er slettet
     @Test
     public void imageCountDecreaseAfterDeletion() {
-        // Get initial question count - using atomic variable
+        // Bruker en atomisk variabel for å holde det opprinnelige antallet bilder
         final int[] initialCount = new int[1];
+        // Sjekk det opprinnelige antallet ved å finne GridView og få dens antall
         onView(withId(R.id.gallery_layout)).check(((view, noViewFoundException) -> {
             initialCount[0] = getCount(view);
         }));
 
-        // click on the first element
+        // Klikk på det første elementet
         onData(anything()).inAdapterView(withId(R.id.gallery_layout)).atPosition(0).perform(click());
 
-        // define a custom matcher for the test
+        // Definer en tilpasset matcher for testen
         onView(withId(R.id.gallery_layout)).check(matches(new TypeSafeMatcher<View>() {
             @Override
             protected boolean matchesSafely(View item) {
-                // check if the new score is 1 less
+                // Sjekk om det nye antallet er 1 mindre
                 return getCount(item) == initialCount[0] - 1;
             }
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("GridView should have 1 less element after deletion");
+                description.appendText("GridView skal ha 1 færre element etter sletting");
             }
         }));
     }
 
+    // Test for å se om antall spørsmål øker etter å ha lagt til et spørsmål
+    // Lager et mock data med et bilde av en katt. Den lagres i URI
     @Test
     public void QuestionCountIncreasesAfterAdding() throws InterruptedException {
-        // define the data used for mocking
+        // Definer dataene som brukes for å etterligne
         int imageResource = R.drawable.cat;
         String packageName = getApplicationContext().getPackageName();
         Uri imageUri = Uri.parse("android.resource://" + packageName + "/" + imageResource);
 
-        // Get initial question count - using atomic variable
+        // Få det opprinnelige antallet spørsmål - bruker atomisk variabel
         final int[] initialCount = new int[1];
         onView(withId(R.id.gallery_layout)).check((view, noViewFoundException) -> {
             initialCount[0] = getCount(view);
         });
 
-        // click a button to go to the next page, and wait 500ms to make sure the new page is loaded
+        // Klikk på en knapp for å gå til neste side, og vent 500 ms for å sikre at den nye siden er lastet
         onView(withId(R.id.button)).perform(click());
         Thread.sleep(500);
 
-        // define and use the mock-data
+        // Definer og bruk mock-dataene
         Intent resultData = new Intent();
         resultData.setData(imageUri);
         Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
         intending(hasAction(Intent.ACTION_OPEN_DOCUMENT)).respondWith(result);
 
-        // perform the inputs, save the question, and wait 500ms to make sure the new page is loaded
+        // Utfør inndataene, lagre spørsmålet, og vent 500 ms for å sikre at den nye siden er lastet
         onView(withId(R.id.select_image_button)).perform(click());
         onView(withId(R.id.question_text)).perform(typeText("New Question"), closeSoftKeyboard());
         onView(withId(R.id.save_question)).perform(click());
         Thread.sleep(500);
 
-        // define a custom matcher for the test
+        // Definer en tilpasset matcher for testen
         onView(withId(R.id.gallery_layout)).check((view, noViewFoundException) -> {
             TypeSafeMatcher<View> matcher = new TypeSafeMatcher<View>() {
                 @Override
                 protected boolean matchesSafely(View item) {
-                    // check if the new score is 1 more
+                    // Sjekk om det nye antallet er 1 mer
                     return getCount(view) == initialCount[0] + 1;
                 }
 
                 @Override
                 public void describeTo(Description description) {
-                    description.appendText("GridView should have one more item after adding a question");
+                    description.appendText("GridView skal ha ett mer element etter å ha lagt til et spørsmål");
                 }
             };
 
@@ -124,7 +133,7 @@ public class GalleryActivityTest {
         });
     }
 
-    // helper function to get the number of elements from a GridView
+    // Hjelpefunksjon for å få antall elementer fra en GridView
     private int getCount(View view) {
         GridView gridView = (GridView) view;
         return gridView.getAdapter().getCount();

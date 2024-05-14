@@ -21,35 +21,41 @@ import org.junit.runner.RunWith;
 
 import dat153.g16.oblig3.activity.QuizActivity;
 
+// Bruker AndroidJUnit4 som testkjører for å kjøre Espresso-tester
 @RunWith(AndroidJUnit4.class)
 public class QuizActivityTest {
+    // Starter QuizActivity før hver test gjennom ActivityScenarioRule
     @Rule
     public ActivityScenarioRule<QuizActivity> activityRule = new ActivityScenarioRule<>(QuizActivity.class);
 
+    // Initialiserer Intents før hver test
     @Before
     public void setUp() {
         Intents.init();
     }
 
+    // Frigjør Intents etter hver test for å unngå minnelekkasje
     @After
     public void tearDown() {
         Intents.release();
     }
 
+    // Tester om poengsummen oppdateres korrekt når brukeren trykker på det riktige svaret
     @Test
     public void scoreUpdatesCorrectlyOnCorrectAnswer() throws InterruptedException {
-        // Define the variables for the test
-        String currentScoreText = "Score: 0";
-        String expectedScoreText = "Score: 1";
+        // Definerer variabler for testen
+        String currentScoreText = "Score: 0"; // Forventet startpoengsum
+        String expectedScoreText = "Score: 1"; // Forventet poengsum etter korrekt svar
 
-        // Delay 100ms to make sure the database has loaded
+        // Venter 500ms for å sikre at databasen og UI har lastet fullstendig
         Thread.sleep(500);
 
-        // check initial score, and perform the click-action
+        // Sjekker den initielle poengsummen og utfører klikk-handlingen på knappen med riktig svar
         onView(withId(R.id.text_score)).check(matches(withText(currentScoreText)));
         onView(withTagValue(is("correctAnswer"))).perform(click());
 
-        // check if the new score is correct
+        // Sjekker om poengsummen er oppdatert korrekt
         onView(withId(R.id.text_score)).check(matches(withText(expectedScoreText)));
     }
 }
+
